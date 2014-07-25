@@ -12,6 +12,7 @@ ADD_SUBDIRECTORY(fm)
 ADD_SUBDIRECTORY(loop)
 ADD_SUBDIRECTORY(sfm)
 ADD_SUBDIRECTORY(util)
+ADD_SUBDIRECTORY(densemap)
 
 SET(MAVMAP_LIBRARIES
     sequential_mapper
@@ -38,6 +39,7 @@ SET(MAVMAP_LIBRARIES
     timer
     math)
 
+ADD_EXECUTABLE(densemapper densemapper.cc)
 ADD_EXECUTABLE(mapper mapper.cc)
 TARGET_LINK_LIBRARIES(mapper
     ${MAVMAP_LIBRARIES}
