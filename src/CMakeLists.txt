@@ -37,9 +37,17 @@ SET(MAVMAP_LIBRARIES
     feature
     image
     timer
-    math)
+    math
+    rectify
+    reproject)
 
 ADD_EXECUTABLE(densemapper densemapper.cc)
+TARGET_LINK_LIBRARIES(densemapper
+    ${MAVMAP_LIBRARIES}
+    ${OpenCV_LIBRARIES}
+    ${Boost_LIBRARIES}
+    ${CERES_LIBRARIES}
+)
 ADD_EXECUTABLE(mapper mapper.cc)
 TARGET_LINK_LIBRARIES(mapper
     ${MAVMAP_LIBRARIES}

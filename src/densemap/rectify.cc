@@ -28,17 +28,17 @@ void rectify_images(const Matrix3d& calib_matrix_,
 
 
     Mat dist_coeffs = Mat::zeros(1,8,CV_32F);
-//Mat rimage, limage;								//resizing
-    Mat const rimage = camera_poses_[ridx].read();				//rimageBig = camera_poses_[ridx].read();
-//resize(rimageBig, rimage, Size(), 0.4, 0.4, INTER_LINEAR);
+							
+    Mat const rimage = camera_poses_[ridx].read();				
+
     Mat const limage = camera_poses_[lidx].read();
-//resize(limageBig, limage, Size(), 0.4, 0.4, INTER_LINEAR);
+
     
     
     Size imageSize = rimage.size();
     Mat roi= Mat::zeros(imageSize.height, imageSize.width, CV_8U), lroi, rroi, roirect;
 
-    //TODO IMPLEMENT PARAMETER FROM TERMINAL
+    
     rectangle(roi, Point(15,15),Point(imageSize.width-15,imageSize.height-15),CV_RGB(255, 255, 255) ,CV_FILLED);
    
     rvec[0] = camera_poses_[ridx].roll;
@@ -50,7 +50,7 @@ void rectify_images(const Matrix3d& calib_matrix_,
     tvec[2] = camera_poses_[ridx].tz;
 
     
-    right_Rt = compose_Rt_matrix (rvec, tvec);
+    right_Rt = compose_proj_matrix (rvec, tvec);
 
     rvec[0] = camera_poses_[lidx].roll;
     rvec[1] = camera_poses_[lidx].pitch;
@@ -61,7 +61,7 @@ void rectify_images(const Matrix3d& calib_matrix_,
     tvec[2] = camera_poses_[lidx].tz;
 
     
-    left_Rt = compose_Rt_matrix (rvec, tvec);
+    left_Rt = compose_proj_matrix (rvec, tvec);
     
     right_Rt4.block<3,4>(0,0)= right_Rt;
     left_Rt4.block<3,4>(0,0)= left_Rt;
@@ -152,7 +152,7 @@ void rectify_images(const Matrix3d& calib_matrix_,
     
     
     
-    int depthmapMethod=1;  //	1: cpu sbgm	mukodik mindennel
+    int depthmapMethod=1;  //	1: cpu sbgm	
 		   //	2: gpu bm	
 		   //	3: cpu bm
 	
@@ -471,7 +471,7 @@ fs.release();
 // cout<<disp;
 // waitKey();
     filterDisparity(disp);
-//TODO    bilateralFilter(disp, dispfilter, 5, 20, 20);
+
     
 //    medianBlur(disp, dispfilter, 5);	//not that good
 //    dispfilter.copyTo(disp);
@@ -539,15 +539,7 @@ cout<<"reprojection done!"<<endl;
     
 
     
-//TODO TODO TODO TODO
-/*
- * + csinalni parameterezheto ROI-t
- * 
- * regi kepek + 3k kepek block matchingel osszeallitani a kepet, depth mapet, maszkot, pointcloudot osszehasonlitasra.
- * 
- * nagytakaritas
- */
-    
+
     
 cout<<"matrix:"<<endl;
 //cout<<_3dimage;    
